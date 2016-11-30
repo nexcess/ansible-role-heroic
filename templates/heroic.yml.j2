@@ -1,0 +1,125 @@
+# vim: filetype=yaml
+port: 8080
+
+# Schedule for refreshing cluster metadata.
+refreshClusterSchedule: "0 */1 * * * ?"
+
+# Cluster configuration.
+cluster:
+  id: null
+  useLocal: true
+  capabilities:
+    - QUERY
+    - WRITE
+  discovery:
+    type: static
+    nodes:
+      - native://localhost:8100
+  rpc:
+    type: native
+    host: 127.0.0.1
+    port: 8100
+    parentThreads: 2
+    childThreads: 10
+
+# Metrics configuration.
+metrics:
+  backends:
+    ## Cassandra 2 backend.
+    - type: cassandra2
+      id: null
+      group: heroic
+      keyspace: heroic
+      seeds:
+        - localhost
+      maxConnectionsPerHost: 50
+    ## Generated (infinite) metrics.
+    - type: generated
+      generator:
+      type: random
+      min: -100
+      max: 1000
+      step: 10000
+      range: 50
+      type: sine
+      magnitude: 1000d
+      period: 86400000
+
+# Metadata backend configuration.
+metadata:
+  backends:
+    ## Lucene metadata.
+    - type: lucene
+      type: random
+      seed: 0
+    ## ElasticSearch-based metadata.
+    - type: elasticsearch
+      id: null
+      clusterName: heroic
+      index:
+        type: single
+        index: heroic
+        type: rotating
+        pattern: heroic-%s
+        interval: 604800000
+      nodeClient: false
+      writeBulkActions: 1000
+      dumpInterval: 1
+      concurrentBulkRequests: 5
+      seeds:
+        - localhost:9200
+
+# Data consumers.
+#consumers:
+#  - type: kafka
+#    # Id for consumer.
+#    # @default Generated
+#    #id: null
+#    # Topics to consume from (required).
+#    topics:
+#      - "metrics"
+#    # Schema to use when consuming (required).
+#    # The fully qualified class name of a schema implementation for consuming.
+#    #schema: com.spotify.heroic.consumer.schemas.Spotify100
+#    # Threads per topic.
+#    # @default 2
+#    #threadsPerTopic: 2
+#    # Kafka configuration.
+#    # The provided map will be passed in directly as the kafka configuration.
+#    # For available configuration options, see:
+#    #   https://kafka.apache.org/08/configuration.html#consumerconfigs
+#    #config:
+#    #  zookeeper.connect: localhost:2181
+#    #  group.id: heroic
+
+## Aggregation cache.
+#cache:
+#  backend:
+#    ## In-memory based aggregation cache.
+#    #type: memory
+#    ## Cassandra based cache.
+#    #type: cassandra2
+#    #  # Keyspace.
+#    #  # @default "heroic"
+#    #  #keyspace: heroic
+#    #  # Seeds.
+#    #  # @default empty
+#    #  #seeds:
+#    #  #  - localhost
+#    #  # Max number of connections per host in cluster.
+#    #  #maxConnectionsPerHost: 50
+
+## Http client configuration.
+#client:
+#  # Number of threads to use for client requests.
+#  # @default 100
+#  #threads: 100
+#  # Max amounts of pending requests, if all client threads are occupied.
+#  # @default 100
+#  #queueSize: 100
+#  # Timeout in milliseconds for establishing a client connection.
+#  # @default 2000
+#  #connectTimeout: 2000
+#  # Timeout in milliseconds for reading from a server.
+#  # @default 120000
+#  #readTimeout: 120000
