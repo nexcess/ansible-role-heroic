@@ -33,8 +33,15 @@
     group={{ heroic_group }}
     recurse=yes
 
+- name: Build Heroic's Repackaged JARs
+  command: ./tools/install-repackaged
+    chdir={{ heroic_home }}/heroic
+    creates={{ heroic_home }}/repackaged/bigtable/target/bigtable-client-core-*.jar
+  become: yes
+  become_user: "{{ heroic_user }}"
+
 - name: Build Heroic
-  command: mvn clean package
+  command: mvn clean package -D maven.test.skip=true
     chdir={{ heroic_home }}/heroic
     creates={{ heroic_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar
   become: yes
