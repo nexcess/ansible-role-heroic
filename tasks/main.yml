@@ -21,8 +21,9 @@
 - name: Get Heroic
   git:
     repo={{ heroic_git_repo }}
-    dest={{ heroic_home }}
+    dest={{ heroic_home }}/heroic
     version={{ heroic_git_branch }}
+    creates={{ heroic_home }}/heroic
 
 - name: Tighten Up Ownership
   file:
