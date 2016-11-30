@@ -1,8 +1,11 @@
 ---
 
 heroic_java_packages:
+  - java-1.8.0-openjdk
   - java-1.8.0-openjdk-headless
+  - java-1.8.0-openjdk-devel
   - maven
+  - maven-compiler-plugin
 heroic_user: heroic
 heroic_group: heroic
 heroic_home: /home/heroic
