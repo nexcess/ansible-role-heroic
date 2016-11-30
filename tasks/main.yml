@@ -23,6 +23,7 @@
     repo={{ heroic_git_repo }}
     dest={{ heroic_home }}/heroic
     version={{ heroic_git_branch }}
+  args:
     creates={{ heroic_home }}/heroic
 
 - name: Tighten Up Ownership
