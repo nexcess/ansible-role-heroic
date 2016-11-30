@@ -35,5 +35,7 @@
 
 - name: Build Heroic
   command: mvn clean package
-    chdir={{ heroic_home }}
+    chdir={{ heroic_home }}/heroic
     creates={{ heroic_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar
+  become: yes
+  become_user: {{ heroic_user }}
