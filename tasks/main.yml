@@ -20,7 +20,7 @@
 
 - name: Get Heroic
   git:
-    repo={{ heroic_git_repo }}
+    repo={{ heroic_git_repo }}/heroic
     dest={{ heroic_home }}
     version={{ heroic_git_branch }}
 
