@@ -21,10 +21,10 @@
 - name: Get Heroic
   git:
     repo={{ heroic_git_repo }}
-    dest={{ heroic_home }}/heroic
+    dest={{ heroic_app_home }}
     version={{ heroic_git_branch }}
   args:
-    creates={{ heroic_home }}/heroic
+    creates={{ heroic_app_home }}
 
 - name: Tighten Up Ownership
   file:
@@ -35,14 +35,14 @@
 
 - name: Build Heroic's Repackaged JARs
   command: ./tools/install-repackaged
-    chdir={{ heroic_home }}/heroic
-    creates={{ heroic_home }}/repackaged/bigtable/target/bigtable-client-core-*.jar
+    chdir={{ heroic_app_home }}
+    creates={{ heroic_app_home }}/repackaged/bigtable/target/bigtable-client-core-*.jar
   become: yes
   become_user: "{{ heroic_user }}"
 
 - name: Build Heroic
   command: mvn clean package -D maven.test.skip=true
-    chdir={{ heroic_home }}/heroic
-    creates={{ heroic_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar
+    chdir={{ heroic_app_home }}
+    creates={{ heroic_app_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar
   become: yes
   become_user: "{{ heroic_user }}"
