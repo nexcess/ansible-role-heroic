@@ -6,12 +6,10 @@ heroic_java_packages:
 heroic_user: heroic
 heroic_group: heroic
 heroic_home: /home/heroic
-heroic_git_repo: git@github.com:spotify/heroic.git
+heroic_git_repo: https://github.com/spotify/heroic.git
 heroic_git_branch: master
 heroic_firewall_open_external_ports:
   - 22
-  - 443
 heroic_firewall_open_internal_ports:
-  - 9160
 heroic_ssl_key:
 heroic_ssl_cert:
