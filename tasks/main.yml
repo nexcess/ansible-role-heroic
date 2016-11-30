@@ -1,0 +1,37 @@
+---
+
+- name: Install Java + Deps
+  package:
+    state=latest
+    name={{ item }}
+  with_items: "{{ heroic_java_packages }}"
+
+- name: Ensure Group Exists
+  group:
+    name={{ heroic_group }}
+    state=present
+
+- name: Ensure User Exists
+  user:
+    user={{ heroic_user }}
+    group={{ heroic_group }}
+    home={{ heroic_home }}
+    state=present
+
+- name: Get Heroic
+  git:
+    repo={{ heroic_git_repo }}
+    dest={{ heroic_home }}
+    version={{ heroic_git_branch }}
+
+- name: Tighten Up Ownership
+  file:
+    path={{ heroic_home }}
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    recurse=yes
+
+- name: Build Heroic
+  command: mvn clean package
+    chdir={{ heroic_home }}
+    creates={{ heroic_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar
