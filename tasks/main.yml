@@ -46,3 +46,11 @@
     creates={{ heroic_app_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar
   become: yes
   become_user: "{{ heroic_user }}"
+
+- name: Install Heroic Config
+  template:
+    src=heroic.yml.j2
+    dest={{ heroic_app_home }}/heroic.yml
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    mode=0600
