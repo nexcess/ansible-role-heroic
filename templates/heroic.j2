@@ -1,0 +1,7 @@
+#!/bin/bash
+
+java \
+     -Djava.security.egd=file:/dev/urandom \
+     -cp {{ heroic_app_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar \
+     com.spotify.heroic.HeroicService \
+     {{ heroic_app_home }}/heroic.yml
