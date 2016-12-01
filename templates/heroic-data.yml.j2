@@ -1,4 +1,4 @@
-# vim: filetype=yaml
+
 port: 8080
 
 # Cluster configuration.
@@ -15,18 +15,20 @@ metrics:
   backends:
     - type: datastax
       seeds:
-        {{ heroic_cassandra_host_list | to_nice_yaml }}
+        {{ heroic_cassandra_host_list | to_nice_yaml(indent=8) }}
 
+# Metadata configuration.
 metadata:
   backends:
     - type: elasticsearch
       connection:
         seeds:
-          {{ heroic_elasticsearch_host_list | to_nice_yaml }}
+          {{ heroic_elasticsearch_host_list | to_nice_yaml(indent=8) }}
 
+# Suggest configuration.
 suggest:
   backends:
     - type: elasticsearch
       connection:
         seeds:
-          {{ heroic_elasticsearch_host_list | to_nice_yaml }}
+          {{ heroic_elasticsearch_host_list | to_nice_yaml(indent=8) }}

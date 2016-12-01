@@ -47,10 +47,26 @@
   become: yes
   become_user: "{{ heroic_user }}"
 
-- name: Install Heroic Config
+- name: Install Heroic Config (Data)
   template:
-    src=heroic.yml.j2
-    dest={{ heroic_app_home }}/heroic.yml
+    src=heroic-data.yml.j2
+    dest={{ heroic_app_home }}/heroic-data.yml
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    mode=0600
+
+- name: Install Heroic Config (API)
+  template:
+    src=heroic-api.yml.j2
+    dest={{ heroic_app_home }}/heroic-api.yml
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    mode=0600
+
+- name: Install Heroic Config (Consumer)
+  template:
+    src=heroic-consumer.yml.j2
+    dest={{ heroic_app_home }}/heroic-consumer.yml
     owner={{ heroic_user }}
     group={{ heroic_group }}
     mode=0600
