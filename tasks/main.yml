@@ -54,3 +54,48 @@
     owner={{ heroic_user }}
     group={{ heroic_group }}
     mode=0600
+
+- name: Configure Cassandra Keyspace
+  command: echo -e "exit\n" | tools/heroic-shell -P cassandra -X cassandra.seeds=10.132.48.56,10.132.54.91,10.132.74.100 -X datastax.configure
+    chdir={{ heroic_app_home }}
+  become: yes
+  become_user: "{{ heroic_user }}"
+
+- name: Configure Elasticsearch Metadata
+  command: echo -e "exit\n" | tools/heroic-shell -P elasticsearch-metadata
+    chdir={{ heroic_app_home }}
+  become: yes
+  become_user: "{{ heroic_user }}"
+
+- name: Configure Elasticsearch Suggest
+  command: echo -e "exit\n" | tools/heroic-shell -P elasticsearch-suggest
+    chdir={{ heroic_app_home }}
+  become: yes
+  become_user: "{{ heroic_user }}"
+
+- name: Configure Collectd Endpoint
+  command: echo -e "exit\n" | tools/heroic-shell -P collectd
+    chdir={{ heroic_app_home }}
+  become: yes
+  become_user: "{{ heroic_user }}"
+
+- name: Install Heroic Control Script
+  template:
+    src=heroic.j2
+    dest={{ heroic_app_home }}/heroic
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    mode=0700
+
+#- name: Install Heroic Systemd Script
+#  template:
+#    src=heroic.j2
+#    dest={{ heroic_app_home }}/heroic
+#    owner={{ heroic_user }}
+#    group={{ heroic_group }}
+#    mode=0700
+
+#- name: Start Heroic
+#  service:
+#    name=heroic
+#    state=started
