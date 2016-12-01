@@ -11,7 +11,7 @@ heroic_group: heroic
 heroic_home: /home/heroic
 heroic_app_home: /home/heroic/heroic
 heroic_git_repo: https://github.com/spotify/heroic.git
-heroic_git_branch: master
+heroic_git_branch: 51494afd3c17bd3e65d8c442c508265aa5440058
 heroic_firewall_open_external_ports:
   - 22
 heroic_firewall_open_internal_ports:
