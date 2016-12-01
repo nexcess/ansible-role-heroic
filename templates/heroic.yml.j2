@@ -3,14 +3,30 @@ port: 8080
 
 # Cluster configuration.
 cluster:
-  useLocal: true
+  protocols:
+    - type: grpc
   discovery:
     type: static
     nodes:
-      - native://127.0.0.1:8100
+      - "grpc://127.0.0.1"
 
 # Metrics configuration.
 metrics:
   backends:
     - type: datastax
-      seeds: {{ heroic_cassandra_host_list }}
+      seeds:
+        {{ heroic_cassandra_host_list | to_nice_yaml }}
+
+metadata:
+  backends:
+    - type: elasticsearch
+      connection:
+        seeds:
+          {{ heroic_elasticsearch_host_list | to_nice_yaml }}
+
+suggest:
+  backends:
+    - type: elasticsearch
+      connection:
+        seeds:
+          {{ heroic_elasticsearch_host_list | to_nice_yaml }}

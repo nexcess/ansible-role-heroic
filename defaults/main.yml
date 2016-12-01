@@ -17,3 +17,7 @@ heroic_firewall_open_external_ports:
 heroic_firewall_open_internal_ports:
 heroic_ssl_key:
 heroic_ssl_cert:
+heroic_cassandra_host_list:
+  - 127.0.0.1
+heroic_elasticsearch_host_list:
+  - 127.0.0.1
