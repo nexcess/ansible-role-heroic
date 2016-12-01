@@ -1,0 +1,11 @@
+
+port: 8080
+
+# Cluster configuration.
+cluster:
+  protocols:
+    - type: grpc
+  discovery:
+    type: static
+    nodes:
+      - "grpc://127.0.0.1"

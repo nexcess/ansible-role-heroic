@@ -1,0 +1,14 @@
+
+port: 8080
+
+# Consumer configuration.
+consumers:
+  - type: kafka
+    schema: com.spotify.heroic.consumer.schemas.Spotify100
+    topics:
+      - "metrics"
+    config:
+      group.id: heroic-consumer
+      zookeeper.connect: 127.0.0.1
+      auto.offset.reset: smallest
+      auto.commit.enable: true
