@@ -5,6 +5,9 @@ port: 8080
 cluster:
   protocols:
     - type: grpc
+  capabilities:
+    - QUERY
+    - WRITE
   discovery:
     type: static
     nodes:
@@ -24,6 +27,7 @@ metadata:
       connection:
         seeds:
           {{ heroic_elasticsearch_host_list | to_nice_yaml | indent(8, false) }}
+      backendType: kv
 
 # Suggest configuration.
 suggest:
@@ -32,3 +36,9 @@ suggest:
       connection:
         seeds:
           {{ heroic_elasticsearch_host_list | to_nice_yaml | indent(8, false) }}
+      backendType: kv
+
+# Shell server.
+shellServer:
+  host: 127.0.0.1
+  port: 9190
