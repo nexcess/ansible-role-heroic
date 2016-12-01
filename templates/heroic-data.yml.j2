@@ -8,14 +8,14 @@ cluster:
   discovery:
     type: static
     nodes:
-      - "grpc://127.0.0.1"
+      - grpc://127.0.0.1
 
 # Metrics configuration.
 metrics:
   backends:
     - type: datastax
       seeds:
-        {{ heroic_cassandra_host_list | to_nice_yaml(indent=8) }}
+        {{ heroic_cassandra_host_list | to_nice_yaml | indent(8, false) }}
 
 # Metadata configuration.
 metadata:
