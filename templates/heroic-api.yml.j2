@@ -1,10 +1,12 @@
 
 port: 8080
 
-# Cluster configuration.
 cluster:
   protocols:
     - type: grpc
+  capabilities:
+    - QUERY
+    - WRITE
   discovery:
     type: static
     nodes:

@@ -23,6 +23,7 @@
     repo={{ heroic_git_repo }}
     dest={{ heroic_app_home }}
     version={{ heroic_git_branch }}
+    update=no
   args:
     creates={{ heroic_app_home }}
 
