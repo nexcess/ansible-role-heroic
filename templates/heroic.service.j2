@@ -2,9 +2,11 @@
 Description=Heroic TSDB
 
 [Service]
-Type=oneshot
-ExecStart={{ heroic_app_home }}/heroic start
-ExecStop={{ heroic_app_home }}/heroic stop
+Type=simple
+User={{ heroic_user }}
+Group={{ heroic_group }}
+Restart=on-failure
+ExecStart={{ heroic_app_home }}/heroic
 RemainAfterExit=yes
 
 [Install]

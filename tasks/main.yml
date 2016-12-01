@@ -56,25 +56,19 @@
     mode=0600
 
 - name: Configure Cassandra Keyspace
-  command: echo -e "exit\n" | tools/heroic-shell -P cassandra -X cassandra.seeds=10.132.48.56,10.132.54.91,10.132.74.100 -X datastax.configure
+  command: echo -e "exit\n" | tools/heroic-shell -P cassandra -X cassandra.seeds={{ heroic_cassandra_host_list }} -X datastax.configure
     chdir={{ heroic_app_home }}
   become: yes
   become_user: "{{ heroic_user }}"
 
-- name: Configure Elasticsearch Metadata
-  command: echo -e "exit\n" | tools/heroic-shell -P elasticsearch-metadata
-    chdir={{ heroic_app_home }}
-  become: yes
-  become_user: "{{ heroic_user }}"
-
-- name: Configure Elasticsearch Suggest
-  command: echo -e "exit\n" | tools/heroic-shell -P elasticsearch-suggest
+- name: Configure Elasticsearch Metadata/Suggest
+  command: echo -e "exit\n" | tools/heroic-shell -P elasticsearch-metadata -P elasticsearch-metadata -X elasticsearch.pattern="heroic-%s" -X elasticsearch.seeds={{ heroic_elasticsearch_host_list | join(',') }}
     chdir={{ heroic_app_home }}
   become: yes
   become_user: "{{ heroic_user }}"
 
 - name: Configure Collectd Endpoint
-  command: echo -e "exit\n" | tools/heroic-shell -P collectd
+  command: echo -e "exit\n" | tools/heroic-shell -P collectd -X collectd.host={{ heroic_collectd_host }} -X collectd.port={{ heroic_collectd_port }}
     chdir={{ heroic_app_home }}
   become: yes
   become_user: "{{ heroic_user }}"
@@ -87,15 +81,18 @@
     group={{ heroic_group }}
     mode=0700
 
-#- name: Install Heroic Systemd Script
-#  template:
-#    src=heroic.j2
-#    dest={{ heroic_app_home }}/heroic
-#    owner={{ heroic_user }}
-#    group={{ heroic_group }}
-#    mode=0700
+- name: Install Heroic Systemd Script
+  template:
+    src=heroic.service.j2
+    dest=/etc/systemd/system/heroic.service
+    owner=root
+    group=root
+    mode=0644
 
-#- name: Start Heroic
-#  service:
-#    name=heroic
-#    state=started
+- name: Reload Systemd
+  command: systemctl daemon-reload
+
+- name: Start Heroic
+  service:
+    name=heroic
+    state=started

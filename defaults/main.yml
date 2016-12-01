@@ -21,3 +21,5 @@ heroic_cassandra_host_list:
   - 127.0.0.1
 heroic_elasticsearch_host_list:
   - 127.0.0.1
+heroic_collectd_host: 127.0.0.1
+heroic_collectd_port: 9090
