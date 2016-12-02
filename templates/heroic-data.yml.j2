@@ -23,7 +23,7 @@ metrics:
 {% for seed in heroic_cassandra_host_list %}
         - {{ seed }}
 {% endfor %}
-
+{% if heroic_elasticsearch_host_list|length %}
 # Metadata configuration.
 metadata:
   backends:
@@ -45,7 +45,7 @@ suggest:
           - {{ seed }}
 {% endfor %}
       backendType: kv
-
+{% endif %}
 # Shell server.
 shellServer:
   host: 127.0.0.1
