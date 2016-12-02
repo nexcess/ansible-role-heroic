@@ -5,9 +5,9 @@ port: 8080
 cluster:
   protocols:
     - type: grpc
-  capabilities:
-    - QUERY
-    - WRITE
+#  capabilities:
+#    - QUERY
+#    - WRITE
   discovery:
     type: static
     nodes:
@@ -18,7 +18,9 @@ metrics:
   backends:
     - type: datastax
       seeds:
-        {{ heroic_cassandra_host_list | to_nice_yaml | indent(8, false) }}
+        {% for seed in heroic_cassandra_host_list %}
+        - {{ seed }}
+        {% endfor %}
 
 # Metadata configuration.
 metadata:
