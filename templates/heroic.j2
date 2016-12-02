@@ -7,7 +7,7 @@ if [ "$1x" = "x" ]; then
     exit 1
 fi
 
-CONFIG="{{ heroic_app_nam }}/heroic-$1.yml"
+CONFIG="{{ heroic_app_name }}/heroic-$1.yml"
 
 if [ ! -f $CONFIG ]; then
     echo "Config file: $CONFIG does not exist."
