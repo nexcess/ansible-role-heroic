@@ -18,9 +18,9 @@ metrics:
   backends:
     - type: datastax
       seeds:
-        {% for seed in heroic_cassandra_host_list %}
+{% for seed in heroic_cassandra_host_list %}
         - {{ seed }}
-        {% endfor %}
+{% endfor %}
 
 # Metadata configuration.
 metadata:
@@ -28,7 +28,9 @@ metadata:
     - type: elasticsearch
       connection:
         seeds:
-          {{ heroic_elasticsearch_host_list | to_nice_yaml | indent(8, false) }}
+{% for seed in heroic_elasticsearch_host_list %}
+          - {{ seed }}
+{% endfor %}
       backendType: kv
 
 # Suggest configuration.
@@ -37,7 +39,9 @@ suggest:
     - type: elasticsearch
       connection:
         seeds:
-          {{ heroic_elasticsearch_host_list | to_nice_yaml | indent(8, false) }}
+{% for seed in heroic_elasticsearch_host_list %}
+          - {{ seed }}
+{% endfor %}
       backendType: kv
 
 # Shell server.
