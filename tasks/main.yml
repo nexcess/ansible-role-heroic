@@ -34,7 +34,7 @@
     group={{ heroic_group }}
     recurse=yes
 
-- name: Build Heroic's Repackaged JARs
+- name: Build Repackaged JARs
   command: ./tools/install-repackaged
     chdir={{ heroic_app_home }}
     creates={{ heroic_app_home }}/repackaged/bigtable/target/bigtable-client-core-*.jar
@@ -48,7 +48,7 @@
   become: yes
   become_user: "{{ heroic_user }}"
 
-- name: Install Heroic Config (Data)
+- name: Install Config (Data)
   template:
     src=heroic-data.yml.j2
     dest={{ heroic_app_home }}/heroic-data.yml
@@ -56,7 +56,7 @@
     group={{ heroic_group }}
     mode=0600
 
-- name: Install Heroic Config (API)
+- name: Install Config (API)
   template:
     src=heroic-api.yml.j2
     dest={{ heroic_app_home }}/heroic-api.yml
@@ -64,13 +64,29 @@
     group={{ heroic_group }}
     mode=0600
 
-- name: Install Heroic Config (Consumer)
+- name: Install Config (Consumer)
   template:
     src=heroic-consumer.yml.j2
     dest={{ heroic_app_home }}/heroic-consumer.yml
     owner={{ heroic_user }}
     group={{ heroic_group }}
     mode=0600
+
+- name: Install Logging Config
+  template:
+    src=log4j.xml.j2
+    dest={{ heroic_app_home }}/log4j.xml
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    mode=0600
+
+- name: Make Log Dir
+  file:
+    path=/var/log/heroic
+    owner={{ heroic_user }}
+    group={{ heroic_group }}
+    state=directory
+    mode=0700
 
 - name: Configure Cassandra Keyspace
   command: echo -e "exit\n" | tools/heroic-shell -P cassandra -X cassandra.seeds={{ heroic_cassandra_host_list }} -X datastax.configure
