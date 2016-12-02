@@ -18,7 +18,9 @@ metrics:
   backends:
     - type: datastax
       seeds:
-        {{ heroic_cassandra_host_list | to_nice_yaml | indent(8, false) }}
+        {% for seed in heroic_cassandra_host_list %}
+        - {{ seed }}
+        {% endfor %}
 
 # Metadata configuration.
 metadata:
