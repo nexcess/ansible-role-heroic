@@ -5,13 +5,15 @@ port: 8080
 cluster:
   protocols:
     - type: grpc
+      host: {{ heroic_grpc_host }}
+      port: {{ heroic_grpc_port }}
 #  capabilities:
 #    - QUERY
 #    - WRITE
   discovery:
     type: static
     nodes:
-      - grpc://127.0.0.1
+      - grpc://{{ heroic_grpc_host }}:{{ heroic_grpc_port }}
 
 # Metrics configuration.
 metrics:
