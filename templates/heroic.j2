@@ -1,8 +1,22 @@
 #!/bin/bash
 
+if [ "$1x" = "x" ]; then
+    echo "Usage: "
+    echo "  heroic <type>"
+    echo "          ^^^^ api|node|consumer"
+    exit 1
+fi
+
+CONFIG="{{ heroic_app_nam }}/heroic-$1.yml"
+
+if [ ! -f $CONFIG ]; then
+    echo "Config file: $CONFIG does not exist."
+    exit 1
+fi
+
 java \
      -Djava.security.egd=file:/dev/urandom \
      -cp {{ heroic_app_home }}/heroic-dist/target/heroic-dist-0.0.1-SNAPSHOT-shaded.jar \
      -Dlog4j.configurationFile={{ heroic_app_home }}/log4j.xml \
      com.spotify.heroic.HeroicService \
-     {{ heroic_app_home }}/heroic-$1.yml
+     $CONFIG
