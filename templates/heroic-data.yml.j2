@@ -34,6 +34,7 @@ metadata:
           - {{ seed }}
 {% endfor %}
       backendType: kv
+      pattern: heroic-metadata-%s
 
 # Suggest configuration.
 suggest:
@@ -45,7 +46,9 @@ suggest:
           - {{ seed }}
 {% endfor %}
       backendType: kv
+      pattern: heroic-suggest-%s
 {% endif %}
+
 # Shell server.
 shellServer:
   host: 127.0.0.1
